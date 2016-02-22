@@ -12,9 +12,27 @@ package com.github.carljmosca.data;
 public class Widget {
     
     //@Id
-    //private int id;
+    private long id;
     private String name;
     private String description;
+
+    public Widget() {
+        
+    }
+    
+    public Widget(long id, String name, String description) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+    }
+    
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }     
 
     public String getName() {
         return name;

@@ -5,14 +5,18 @@
  */
 package com.github.carljmosca.ui;
 
+import com.github.carljmosca.data.DemoAppData;
+import com.github.carljmosca.data.Widget;
+import com.github.carljmosca.repository.WidgetRepository;
 import com.vaadin.annotations.Theme;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -22,11 +26,23 @@ import com.vaadin.ui.VerticalLayout;
 @Theme("valo")
 public class MainUI extends UI {
 
+    private DemoAppData demoAppData;
     private VerticalLayout mainLayout;
+    private BeanItemContainer<Widget> widgets;
+    @Autowired
+    WidgetRepository widgetRepository;
     
     @Override
     protected void init(VaadinRequest request) {
+        demoAppData = new DemoAppData();
+        widgets = new BeanItemContainer<>(Widget.class);
+        widgets.addAll(widgetRepository.findAll());
         addComponents();
+        bind();
+    }
+    
+    private void bind() {
+        
     }
     
     private void addComponents() {
@@ -38,10 +54,10 @@ public class MainUI extends UI {
     private void addHeader() {
         HorizontalLayout hl = new HorizontalLayout();
         ComboBox cmbWidgets = new ComboBox("Widgets");
+        cmbWidgets.setContainerDataSource(widgets);
+        cmbWidgets.setItemCaptionPropertyId("name");
         hl.addComponent(cmbWidgets);        
-        
-        //, FontAwesome.BITBUCKET_SQUARE);
-                
+                     
         mainLayout.addComponent(hl);
     }
 }
