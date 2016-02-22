@@ -17,7 +17,8 @@ public class Widget {
     private String description;
 
     public Widget() {
-        
+        name = "";
+        description = "";   
     }
     
     public Widget(long id, String name, String description) {
