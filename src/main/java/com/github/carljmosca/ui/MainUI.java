@@ -51,7 +51,7 @@ public class MainUI extends UI {
     private void bind() {
         biDemoAppData = new BeanItem<>(demoAppData);
         fgWidget = new FieldGroup(biDemoAppData);             
-        fgWidget.bind(cmbWidgets, "name");
+        fgWidget.bind(cmbWidgets, "selectedWidget");
     }
 
     private void addComponents() {
@@ -73,6 +73,12 @@ public class MainUI extends UI {
             cmbWidgets.select(widgets.getIdByIndex(0));
         });
         hl.addComponent(btnUpdate);
+        
+        Button btnShow = new Button("Show", FontAwesome.DASHBOARD);
+        btnShow.addClickListener((Button.ClickEvent event) -> {
+            System.out.println(demoAppData.getSelectedWidget().getName());
+        });
+        hl.addComponent(btnShow);
 
         mainLayout.addComponent(hl);
     }

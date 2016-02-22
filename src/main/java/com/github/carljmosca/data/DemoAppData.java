@@ -12,13 +12,26 @@ package com.github.carljmosca.data;
 public class DemoAppData {
     
     private Widget selectedWidget;
+    private String name;
 
+    public DemoAppData() {
+        selectedWidget = new Widget();
+    }
+    
     public Widget getSelectedWidget() {
         return selectedWidget;
     }
 
     public void setSelectedWidget(Widget selectedWidget) {
         this.selectedWidget = selectedWidget;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
         
 }
