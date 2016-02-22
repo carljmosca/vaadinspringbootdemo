@@ -10,8 +10,10 @@ import com.github.carljmosca.data.Widget;
 import com.github.carljmosca.repository.WidgetRepository;
 import com.vaadin.annotations.Theme;
 import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringUI;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.UI;
@@ -53,10 +55,17 @@ public class MainUI extends UI {
     
     private void addHeader() {
         HorizontalLayout hl = new HorizontalLayout();
-        ComboBox cmbWidgets = new ComboBox("Widgets");
+        hl.setSpacing(true);
+        ComboBox cmbWidgets = new ComboBox();
         cmbWidgets.setContainerDataSource(widgets);
         cmbWidgets.setItemCaptionPropertyId("name");
-        hl.addComponent(cmbWidgets);        
+        hl.addComponent(cmbWidgets);    
+        
+        Button btnUpdate = new Button("Update", FontAwesome.ADJUST);
+        btnUpdate.addClickListener((Button.ClickEvent event) -> {
+            cmbWidgets.select(widgets.getIdByIndex(0));
+        });
+        hl.addComponent(btnUpdate);
                      
         mainLayout.addComponent(hl);
     }
