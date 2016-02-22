@@ -9,6 +9,8 @@ import com.github.carljmosca.data.DemoAppData;
 import com.github.carljmosca.data.Widget;
 import com.github.carljmosca.repository.WidgetRepository;
 import com.vaadin.annotations.Theme;
+import com.vaadin.data.fieldgroup.FieldGroup;
+import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.VaadinRequest;
@@ -28,12 +30,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Theme("valo")
 public class MainUI extends UI {
 
+    private ComboBox cmbWidgets;
     private DemoAppData demoAppData;
     private VerticalLayout mainLayout;
     private BeanItemContainer<Widget> widgets;
+    private FieldGroup fgWidget;
+    private BeanItem<DemoAppData> biDemoAppData;
     @Autowired
     WidgetRepository widgetRepository;
-    
+
     @Override
     protected void init(VaadinRequest request) {
         demoAppData = new DemoAppData();
@@ -42,31 +47,33 @@ public class MainUI extends UI {
         addComponents();
         bind();
     }
-    
+
     private void bind() {
-        
+        biDemoAppData = new BeanItem<>(demoAppData);
+        fgWidget = new FieldGroup(biDemoAppData);             
+        fgWidget.bind(cmbWidgets, "name");
     }
-    
+
     private void addComponents() {
         mainLayout = new VerticalLayout();
         addHeader();
         setContent(mainLayout);
     }
-    
+
     private void addHeader() {
         HorizontalLayout hl = new HorizontalLayout();
         hl.setSpacing(true);
-        ComboBox cmbWidgets = new ComboBox();
+        cmbWidgets = new ComboBox();
         cmbWidgets.setContainerDataSource(widgets);
         cmbWidgets.setItemCaptionPropertyId("name");
-        hl.addComponent(cmbWidgets);    
-        
+        hl.addComponent(cmbWidgets);
+
         Button btnUpdate = new Button("Update", FontAwesome.ADJUST);
         btnUpdate.addClickListener((Button.ClickEvent event) -> {
             cmbWidgets.select(widgets.getIdByIndex(0));
         });
         hl.addComponent(btnUpdate);
-                     
+
         mainLayout.addComponent(hl);
     }
 }
