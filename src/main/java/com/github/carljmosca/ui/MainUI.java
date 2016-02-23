@@ -20,6 +20,8 @@ import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -76,9 +78,22 @@ public class MainUI extends UI {
         
         Button btnShow = new Button("Show", FontAwesome.DASHBOARD);
         btnShow.addClickListener((Button.ClickEvent event) -> {
+            try {
+                fgWidget.commit();
+            } catch (FieldGroup.CommitException ex) {
+                Logger.getLogger(MainUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
             System.out.println(demoAppData.getSelectedWidget().getName());
         });
         hl.addComponent(btnShow);
+        
+        Button btnChange = new Button("Change", FontAwesome.REFRESH);
+        btnChange.addClickListener((Button.ClickEvent event) -> {
+            Widget widget = (Widget)biDemoAppData.getItemProperty("selectedWidget").getValue();
+            widget.setName("test xxxx");
+            System.out.println(demoAppData.getSelectedWidget().getName());
+        });
+        hl.addComponent(btnChange);
 
         mainLayout.addComponent(hl);
     }
