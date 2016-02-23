@@ -1,2 +1,3 @@
 vaadin-spring-boot-demo
-#### ComboBox binding
+### ComboBox binding
+BeanItemContainer and ComboBox.setItemCaptionPropertyId("name")
